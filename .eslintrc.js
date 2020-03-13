@@ -15,6 +15,7 @@ module.exports = {
   },
   rules: {
     'no-console': 0,
+    'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
     'react/prop-types': [0],
     'react/jsx-curly-newline': 0,
