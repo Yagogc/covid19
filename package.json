@@ -8,7 +8,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@reach/listbox": "0.8.7",
+    "@reach/visually-hidden": "0.8.6",
     "axios": "0.19.2",
+    "country-code-emoji": "1.0.0",
     "next": "9.3.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
