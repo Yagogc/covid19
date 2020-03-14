@@ -18,6 +18,7 @@ module.exports = {
   },
   rules: {
     'no-console': 0,
+    '@typescript-eslint/explicit-function-return-type': 0,
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
     'react/prop-types': [0],
