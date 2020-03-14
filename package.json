@@ -15,7 +15,8 @@
     "next": "9.3.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
-    "react-query": "1.0.27"
+    "react-query": "1.0.27",
+    "styled-components": "5.0.1"
   },
   "devDependencies": {
     "@types/node": "13.9.1",
@@ -23,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "2.23.0",
     "@typescript-eslint/parser": "2.23.0",
     "babel-eslint": "10.1.0",
+    "babel-plugin-styled-components": "1.10.7",
     "eslint": "6.8.0",
     "eslint-config-airbnb": "18.1.0",
     "eslint-config-prettier": "6.10.0",
