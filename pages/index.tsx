@@ -13,10 +13,17 @@ const Container = styled.main`
   margin: 0 auto;
   padding: 10px;
 `
+const Spacer = styled.hr`
+  margin: 10px 0;
+`
 
 const Wrapper = styled.div`
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
+    rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
 `
 
 const Home: React.FC = () => {
@@ -30,6 +37,7 @@ const Home: React.FC = () => {
       <Wrapper>
         <h1>Worldwide Status</h1>
         <Counters stats={data?.data} />
+        <Spacer />
         <CountrySelector
           country={country}
           setCountry={setCountry}
