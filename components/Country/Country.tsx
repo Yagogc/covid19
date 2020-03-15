@@ -7,7 +7,7 @@ interface CountryProps {
   country: string
   urlCountry: string
 }
-const Country: React.FC<CountryProps> = ({ country, urlCountry }) => {
+const Country: React.FC<CountryProps> = ({ country }) => {
   const {
     status: statusCountry,
     data: dataCountry,
@@ -18,6 +18,7 @@ const Country: React.FC<CountryProps> = ({ country, urlCountry }) => {
   if (errorCountry) {
     return <p>An error has ocurred, try searching for another country</p>
   }
+  console.log('country', country)
   if (!country) return null
   return (
     <>
