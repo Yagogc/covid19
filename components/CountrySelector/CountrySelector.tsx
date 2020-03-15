@@ -23,12 +23,11 @@ const useStyles = makeStyles(theme => ({
 const CountrySelector: React.FC<CountrySelectorProps> = ({
   selectedCountry,
   setCountry,
-  url,
 }) => {
   const router = useRouter()
   const classes = useStyles()
   const { status: statusCountries, data: dataCountries } = useQuery(
-    url && 'countries',
+    'countries',
     () => Axios.get('https://covid19.mathdro.id/api/countries')
   )
   const handleChange = value => {
@@ -37,18 +36,14 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
     router.push(`/`, `/?country=${value}`, { shallow: true })
   }
   const cc = useRef(selectedCountry)
-  // useEffect(() => {
-  //   if (dataCountries?.data.countries) {
-  //     console.log('START USEEFFECT')
-  //     console.log('cc.current', cc.current)
-  //     const code = Object.values(dataCountries?.data.countries).find(
-  //       country => country === selectedCountry
-  //     )
-  //     cc.current = !code ? '' : `${code}`
-  //     console.log('cc.current', cc.current)
-  //     console.log('END USEEFFECT')
-  //   }
-  // }, [selectedCountry, dataCountries])
+  useEffect(() => {
+    if (dataCountries?.data.countries) {
+      const code = Object.values(dataCountries?.data.countries).find(
+        country => country === selectedCountry
+      )
+      cc.current = !code ? '' : `${code}`
+    }
+  }, [selectedCountry, dataCountries])
   return (
     <>
       <FormControl className={classes.formControl}>

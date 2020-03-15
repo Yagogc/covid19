@@ -50,10 +50,8 @@ const Home: React.FC<{ country: string }> = ({ country }) => {
   const { data } = useQuery('worldwide', () =>
     Axios.get('https://covid19.mathdro.id/api')
   )
-  console.log('countryProp', country)
   const [selectedCountry, setCountry] = useState(country)
-  console.log('Home:React.FC -> selectedCountry', selectedCountry)
-  useEffect(() => undefined, [country])
+  // useEffect(() => undefined, [country])
   return (
     <Container maxWidth="md">
       <Grid container spacing={3} className={classes.container}>

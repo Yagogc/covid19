@@ -18,7 +18,6 @@ const Country: React.FC<CountryProps> = ({ country }) => {
   if (errorCountry) {
     return <p>An error has ocurred, try searching for another country</p>
   }
-  console.log('country', country)
   if (!country) return null
   return (
     <>
