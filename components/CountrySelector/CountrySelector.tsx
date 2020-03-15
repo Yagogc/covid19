@@ -34,7 +34,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
   const handleChange = value => {
     console.log('HANDLE CHANGE')
     setCountry(value)
-    // router.push(`/`, `/?country=${value}`, { shallow: true })
+    router.push(`/`, `/?country=${value}`, { shallow: true })
   }
   const cc = useRef(selectedCountry)
   useEffect(() => {
@@ -56,6 +56,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
         <Select
           value={dataCountries ? cc.current : ''}
           onChange={event => handleChange(event.target.value)}
+          disabled={!dataCountries}
         >
           {dataCountries &&
             Object.entries(dataCountries?.data.countries).map(

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import Axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
@@ -21,7 +22,7 @@ export async function getServerSideProps(context) {
   let country
   console.log(context)
   if (context?.query?.country) {
-    country = context?.query?.country
+    country = context.query.country
     country = Array.isArray(country) ? country[0] : country
   } else country = ''
   return {
@@ -31,13 +32,28 @@ export async function getServerSideProps(context) {
   }
 }
 
-const Home: React.FC<{ country: string | undefined }> = ({ country }) => {
+// const useCountryQuery = () => {
+//   const router = useRouter()
+//   let country
+//   if (router?.query?.country) {
+//     country = router?.query?.country
+//     country = Array.isArray(country) ? country[0] : country
+//   } else {
+//     country = ''
+//   }
+//   return country
+// }
+
+const Home: React.FC<{ country: string }> = ({ country }) => {
   const classes = useStyles()
+  // const country = useCountryQuery()
   const { data } = useQuery('worldwide', () =>
     Axios.get('https://covid19.mathdro.id/api')
   )
   console.log('countryProp', country)
   const [selectedCountry, setCountry] = useState(country)
+  console.log('Home:React.FC -> selectedCountry', selectedCountry)
+  useEffect(() => undefined, [country])
   return (
     <Container maxWidth="md">
       <Grid container spacing={3} className={classes.container}>
