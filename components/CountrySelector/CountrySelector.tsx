@@ -32,16 +32,21 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
     () => Axios.get('https://covid19.mathdro.id/api/countries')
   )
   const handleChange = value => {
+    console.log('HANDLE CHANGE')
     setCountry(value)
     // router.push(`/`, `/?country=${value}`, { shallow: true })
   }
   const cc = useRef(selectedCountry)
   useEffect(() => {
     if (dataCountries?.data.countries) {
+      console.log('START USEEFFECT')
+      console.log('cc.current', cc.current)
       const code = Object.values(dataCountries?.data.countries).find(
         country => country === selectedCountry
       )
       cc.current = !code ? '' : `${code}`
+      console.log('cc.current', cc.current)
+      console.log('END USEEFFECT')
     }
   }, [selectedCountry, dataCountries])
   return (

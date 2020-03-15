@@ -35,6 +35,7 @@ const Home: React.FC<{ country: string | undefined }> = ({ country }) => {
   const { data } = useQuery('worldwide', () =>
     Axios.get('https://covid19.mathdro.id/api')
   )
+  console.log('country', country)
   const [selectedCountry, setCountry] = useState(country)
   return (
     <Container maxWidth="md">
