@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 export async function getServerSideProps(context) {
   let country
+  console.log(context)
   if (context?.query?.country) {
     country = context?.query?.country
     country = Array.isArray(country) ? country[0] : country
@@ -35,7 +36,7 @@ const Home: React.FC<{ country: string | undefined }> = ({ country }) => {
   const { data } = useQuery('worldwide', () =>
     Axios.get('https://covid19.mathdro.id/api')
   )
-  console.log('country', country)
+  console.log('countryProp', country)
   const [selectedCountry, setCountry] = useState(country)
   return (
     <Container maxWidth="md">
