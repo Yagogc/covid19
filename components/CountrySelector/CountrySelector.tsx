@@ -1,14 +1,8 @@
 import { useQuery } from 'react-query'
 import Axios from 'axios'
-import {
-  Listbox,
-  // ListboxInput,
-  // ListboxButton,
-  // ListboxPopover,
-  // ListboxList,
-  ListboxOption,
-} from '@reach/listbox'
-import VisuallyHidden from '@reach/visually-hidden'
+import { makeStyles } from '@material-ui/core/styles'
+import { Select, InputLabel, MenuItem, FormControl } from '@material-ui/core'
+
 import flag from 'country-code-emoji'
 
 interface CountrySelectorProps {
@@ -17,35 +11,42 @@ interface CountrySelectorProps {
   url: string
 }
 
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+}))
+
 const CountrySelector: React.FC<CountrySelectorProps> = ({
   country,
   setCountry,
   url,
 }) => {
+  const classes = useStyles()
   const { status: statusCountries, data: dataCountries } = useQuery(
     url && 'countries',
     () => Axios.get(url)
   )
   return (
-    <div>
-      <VisuallyHidden id="country-selector">Choose a country</VisuallyHidden>
-      <Listbox
-        disabled={!dataCountries}
-        aria-labelledby="country-selector"
-        value={country}
-        onChange={val => setCountry(val)}
-      >
-        <ListboxOption value="default">Choose a country</ListboxOption>
-        {dataCountries &&
-          Object.entries(dataCountries?.data.countries).map(
-            ([key, valueCountries]: [string, string]) => (
-              <ListboxOption key={key} value={valueCountries}>
-                {`${key} ${flag(valueCountries)}`}
-              </ListboxOption>
-            )
-          )}
-      </Listbox>
-    </div>
+    <>
+      <FormControl className={classes.formControl}>
+        <InputLabel>Country</InputLabel>
+        <Select
+          value={country}
+          onChange={event => setCountry(event.target.value)}
+        >
+          {dataCountries &&
+            Object.entries(dataCountries?.data.countries).map(
+              ([key, valueCountries]: [string, string]) => (
+                <MenuItem key={key} value={valueCountries}>
+                  {`${flag(valueCountries)} ${key}`}
+                </MenuItem>
+              )
+            )}
+        </Select>
+      </FormControl>
+    </>
   )
 }
 
