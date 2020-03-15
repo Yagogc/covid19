@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import Axios from 'axios'
-// import styled from 'styled-components'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, Paper, Grid, Container } from '@material-ui/core'
 
@@ -18,12 +17,25 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Home: React.FC = () => {
+export async function getServerSideProps(context) {
+  let country
+  if (context?.query?.country) {
+    country = context?.query?.country
+    country = Array.isArray(country) ? country[0] : country
+  } else country = ''
+  return {
+    props: {
+      country,
+    }, // will be passed to the page component as props
+  }
+}
+
+const Home: React.FC<{ country: string | undefined }> = ({ country }) => {
   const classes = useStyles()
   const { data } = useQuery('worldwide', () =>
     Axios.get('https://covid19.mathdro.id/api')
   )
-  const [country, setCountry] = useState('')
+  const [selectedCountry, setCountry] = useState(country)
   return (
     <Container maxWidth="md">
       <Grid container spacing={3} className={classes.container}>
@@ -45,11 +57,14 @@ const Home: React.FC = () => {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <CountrySelector
-              country={country}
+              selectedCountry={selectedCountry}
               setCountry={setCountry}
               url={data?.data?.countries}
             />
-            <Country country={country} urlCountry={data?.data?.countries} />
+            <Country
+              country={selectedCountry}
+              urlCountry={data?.data?.countries}
+            />
           </Paper>
         </Grid>
       </Grid>

@@ -8,10 +8,16 @@ interface CountryProps {
   urlCountry: string
 }
 const Country: React.FC<CountryProps> = ({ country, urlCountry }) => {
-  const { status: statusCountry, data: dataCountry } = useQuery(
-    urlCountry && country !== '' && ['country', { country }],
-    () => Axios.get(`${urlCountry}/${country}`)
+  const {
+    status: statusCountry,
+    data: dataCountry,
+    error: errorCountry,
+  } = useQuery(!!country && ['country', { country }], () =>
+    Axios.get(`https://covid19.mathdro.id/api/countries/${country}`)
   )
+  if (errorCountry) {
+    return <p>An error has ocurred, try searching for another country</p>
+  }
   if (!country) return null
   return (
     <>
