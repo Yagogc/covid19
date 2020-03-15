@@ -33,7 +33,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
   )
   const handleChange = value => {
     setCountry(value)
-    router.push(`/?country=${value}`, undefined, { shallow: true })
+    router.push(`/?country=${value}`, `/?country=${value}`, { shallow: true })
   }
   const cc = useRef(selectedCountry)
   useEffect(() => {
