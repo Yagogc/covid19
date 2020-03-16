@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { NextPage } from 'next'
+// import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import Axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
@@ -18,19 +19,18 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export async function getServerSideProps(context) {
-  let country
-  console.log(context)
-  if (context?.query?.country) {
-    country = context.query.country
-    country = Array.isArray(country) ? country[0] : country
-  } else country = ''
-  return {
-    props: {
-      country,
-    }, // will be passed to the page component as props
-  }
-}
+// export async function getServerSideProps(context) {
+//   let country
+//   console.log(contex(?.country) {
+//     country = context.query.country
+//     country = Array.isArray(country) ? country[0] : country
+//   } else country = ''
+//   return {
+//     props: {
+//       country,
+//     }, // will be passed to the page component as props
+//   }
+// }
 
 // const useCountryQuery = () => {
 //   const router = useRouter()
@@ -44,14 +44,13 @@ export async function getServerSideProps(context) {
 //   return country
 // }
 
-const Home: React.FC<{ country: string }> = ({ country }) => {
+const Home: NextPage<{ country: string }> = ({ country }) => {
   const classes = useStyles()
   // const country = useCountryQuery()
   const { data } = useQuery('worldwide', () =>
     Axios.get('https://covid19.mathdro.id/api')
   )
   const [selectedCountry, setCountry] = useState(country)
-  // useEffect(() => undefined, [country])
   return (
     <Container maxWidth="md">
       <Grid container spacing={3} className={classes.container}>
@@ -86,6 +85,17 @@ const Home: React.FC<{ country: string }> = ({ country }) => {
       </Grid>
     </Container>
   )
+}
+
+Home.getInitialProps = async ({ query }) => {
+  let country
+  if (query?.country) {
+    country = query.country
+    country = Array.isArray(country) ? country[0] : country
+  } else country = ''
+  return {
+    country,
+  }
 }
 
 export default Home
