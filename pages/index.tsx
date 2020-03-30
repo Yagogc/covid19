@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { NextPage } from 'next'
+import { useState } from 'react'
 // import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import Axios from 'axios'
@@ -19,18 +18,19 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-// export async function getServerSideProps(context) {
-//   let country
-//   console.log(contex(?.country) {
-//     country = context.query.country
-//     country = Array.isArray(country) ? country[0] : country
-//   } else country = ''
-//   return {
-//     props: {
-//       country,
-//     }, // will be passed to the page component as props
-//   }
-// }
+export async function getServerSideProps(context) {
+  let country
+  if (context && context.country) {
+    console.log(context.query)
+    country = context.query.country
+    country = Array.isArray(country) ? country[0] : country
+  } else country = ''
+  return {
+    props: {
+      country,
+    }, // will be passed to the page component as props
+  }
+}
 
 // const useCountryQuery = () => {
 //   const router = useRouter()
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 //   return country
 // }
 
-const Home: NextPage<{ country: string }> = ({ country }) => {
+const Home: React.FC<{ country: string }> = ({ country }) => {
   const classes = useStyles()
   // const country = useCountryQuery()
   const { data } = useQuery('worldwide', () =>
@@ -74,7 +74,7 @@ const Home: NextPage<{ country: string }> = ({ country }) => {
             <CountrySelector
               selectedCountry={selectedCountry}
               setCountry={setCountry}
-              url={data?.data?.countries}
+              url={data && data.data && data.data.countries}
             />
             <Country
               country={selectedCountry}
@@ -87,15 +87,15 @@ const Home: NextPage<{ country: string }> = ({ country }) => {
   )
 }
 
-Home.getInitialProps = async ({ query }) => {
-  let country
-  if (query?.country) {
-    country = query.country
-    country = Array.isArray(country) ? country[0] : country
-  } else country = ''
-  return {
-    country,
-  }
-}
+// Home.getInitialProps = async ({ query }) => {
+//   let country
+//   if (query?.country) {
+//     country = query.country
+//     country = Array.isArray(country) ? country[0] : country
+//   } else country = ''
+//   return {
+//     country,
+//   }
+// }
 
 export default Home

@@ -26,22 +26,21 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
 }) => {
   const router = useRouter()
   const classes = useStyles()
-  const { status: statusCountries, data: dataCountries } = useQuery(
+  const { data: dataCountries } = useQuery(
     'countries',
     () => Axios.get('https://covid19.mathdro.id/api/countries')
   )
   const handleChange = value => {
-    console.log('HANDLE CHANGE')
     setCountry(value)
     router.push(`/`, `/?country=${value}`, { shallow: true })
   }
   const cc = useRef(selectedCountry)
   useEffect(() => {
     if (dataCountries?.data.countries) {
-      const code = Object.values(dataCountries?.data.countries).find(
-        country => country === selectedCountry
-      )
-      cc.current = !code ? '' : `${code}`
+      const code = dataCountries?.data.countries.find(
+        country => country.iso2 === selectedCountry
+        )
+      cc.current = !code ? '' : `${code.iso2}`
     }
   }, [selectedCountry, dataCountries])
   return (
@@ -54,14 +53,14 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
           disabled={!dataCountries}
         >
           {dataCountries &&
-            Object.entries(dataCountries?.data.countries).map(
-              ([countryName, countryCode]: [string, string]) => (
+            dataCountries?.data.countries.map(
+              ({name, iso2}: {name: string, iso2:string}) => (
                 <MenuItem
-                  key={countryName}
-                  value={countryCode}
-                  selected={countryCode === cc.current}
+                  key={name}
+                  value={iso2}
+                  selected={iso2 === cc.current}
                 >
-                  {`${flag(countryCode)} ${countryName}`}
+                  {`${iso2 ? flag(iso2) : ""} ${name}`}
                 </MenuItem>
               )
             )}
