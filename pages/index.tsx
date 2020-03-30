@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 export async function getServerSideProps(context) {
   let country
   if (context && context.country) {
-    console.log(context.query)
     country = context.query.country
     country = Array.isArray(country) ? country[0] : country
   } else country = ''
@@ -74,7 +73,7 @@ const Home: React.FC<{ country: string }> = ({ country }) => {
             <CountrySelector
               selectedCountry={selectedCountry}
               setCountry={setCountry}
-              url={data && data.data && data.data.countries}
+              url={data?.data?.countries}
             />
             <Country
               country={selectedCountry}
